@@ -1,5 +1,7 @@
 # загрузить мнист
 import numpy as np
+import matplotlib.pyplot as plt
+
 def get_train_mnist():
     import torchvision.datasets as datasets
     mnist_trainset = datasets.MNIST(root='./data', train=True, download=True, transform=None)
@@ -19,15 +21,13 @@ def draw_several(np_images, np_labels):
         plt.imshow(np_images[index].squeeze(), cmap='gray_r')
     plt.show()
 
-def get_exact_numbers(np_images, np_labels):
+def get_exact_numbers(the_number, np_images, np_labels):
     results = []
-    number= 0
+
     for i in range(len(np_labels)):
-        if np_labels[i] == number:
+        if np_labels[i] == the_number:
             results.append(np_images[i])
     return np.array(results)
-
-
 
 if __name__ == "__main__":
     mnist_train = get_train_mnist()
@@ -35,11 +35,11 @@ if __name__ == "__main__":
     imgs = mnist_train.train_data.numpy()
     labels = mnist_train.train_labels.numpy()
 
-    import matplotlib.pyplot as plt
+
 
     plt.imshow(imgs[1].squeeze(), cmap='gray_r')
     plt.savefig("example.png")
     print(labels[1])
-    imgs = get_exact_numbers(imgs, labels)
+    imgs = get_exact_numbers(0, imgs, labels)
     draw_several(imgs, None)
 
