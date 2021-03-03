@@ -32,7 +32,7 @@ class KernelApplicator:
         return matrix_result
 
 
-    def show_activations_as_mask(self, image):
+    def show_activations_as_mask_no_threshold(self, image):
         cm = plt.cm.get_cmap('Blues')
         matrix_result = self.get_matrix_activations(image)
 
@@ -50,17 +50,42 @@ class KernelApplicator:
         t= plt.scatter(x, y, c=c, cmap=cm)
         plt.colorbar()
 
+    def show_activations_as_mask(self, image, threshold):
+        cm = plt.cm.get_cmap('Blues')
+        matrix_result = self.get_matrix_activations(image)
+
+        plt.imshow(image, cmap='gray_r')
+
+        mask_side = matrix_result.shape[0]
+        x = []
+        y = []
+        c = []
+        for i in range(mask_side):
+            for j in range(mask_side):
+                if matrix_result[i,j] <= threshold:
+                    x.append(i + self.hside)
+                    y.append(j + self.hside)
+                    c.append(matrix_result[i,j])
+        plt.scatter(x, y, c=c, cmap=cm)
+        plt.colorbar()
+
 
 if __name__ == "__main__":
     mnist_number = 0
     image = get_mnist_number(mnist_number)
-    devcr = FirstDeviceCreator(3, image)
+    devcr = FirstDeviceCreator(2, image)
     matrix = devcr.create_device()
-    plt.subplot(1,3,1)
+
+    n=4
+    plt.subplot(1,n,1)
     plt.imshow(matrix, cmap='gray_r')
-    plt.subplot(1,3,2)
+    plt.subplot(1,n,2)
     kerap = KernelApplicator(matrix)
     kerap.show_hist(image)
-    plt.subplot(1, 3, 3)
-    kerap.show_activations_as_mask(image)
+    plt.subplot(1, n, 3)
+    kerap.show_activations_as_mask_no_threshold(image)
+    plt.subplot(1, n, 4)
+    thr = 600
+    kerap.show_activations_as_mask(image,thr)
+    plt.title("threshold=" + str(thr))
     plt.show()
