@@ -1,4 +1,5 @@
 import numpy as np
+import pickle
 import matplotlib.pyplot as plt
 
 class Situation:
@@ -42,8 +43,9 @@ class SituationsBank:
     def show_all_situations(self):
         pass
 
-    def save(self):
-        pass
+    def save(self, filename='data.pickle'):
+        with open(filename, 'wb') as f:
+            pickle.dump(self, f)
 
     def show_hist(self):
         activations = []
@@ -57,6 +59,12 @@ class SituationsBank:
 class BankCreator:
     def __init__(self):
         pass
+
+    def load_bank(self, filename='data.pickle'):
+        with open(filename, 'rb') as f:
+            bank = pickle.load(f)
+            return bank
+        return None
 
     def create_bank(self, images, kernel, banksize, bankname="noname.bank"):
         bank = SituationsBank(banksize, bankname)
@@ -89,9 +97,15 @@ if __name__ == "__main__":
     imgs = get_all_images_np() [:6]
 
     ###################################
-    ### make a bank and show results ##
+    ### make a bank and save it to file ##
     banksize = 60
     bank = BankCreator().create_bank(imgs, matrix, banksize)
+    bank.save()
+    del bank
+
+    ##################################
+    # resstore bank from file #######
+    bank = BankCreator().load_bank()
     bank.show_hist()
     plt.show()
 
