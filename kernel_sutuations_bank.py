@@ -38,7 +38,18 @@ class SituationsBank:
         return result_i
 
     def show_first_n_situations(self):
-        pass
+        plt.figure()
+        rows = 5
+        cols = 7
+        num_of_images = rows * cols
+        for index in range(1, num_of_images + 1):
+            plt.subplot(rows, cols, index)
+            plt.axis('off')
+            situation = self.situations[index-1]
+            plt.title(str(situation.activation))
+            plt.imshow(situation.image, cmap='gray_r')
+            plt.scatter(situation.x, situation.y, c='red', marker='o', alpha=0.4)
+        plt.show()
 
     def show_all_situations(self):
         pass
@@ -91,10 +102,12 @@ if __name__ == "__main__":
     image = get_mnist_number(mnist_number)
     devcr = FirstDeviceCreator(3, image)
     matrix = devcr.create_device()
+    plt.imshow(matrix, cmap='gray_r')
+    plt.show()
 
     ###################################
     ##### get train mnist  ############
-    imgs = get_all_images_np() [:6]
+    imgs = get_all_images_np() [:306]
 
     ###################################
     ### make a bank and save it to file ##
@@ -108,4 +121,6 @@ if __name__ == "__main__":
     bank = BankCreator().load_bank()
     bank.show_hist()
     plt.show()
+
+    bank.show_first_n_situations()
 
