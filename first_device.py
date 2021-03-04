@@ -15,13 +15,15 @@ class FirstDeviceCreator:
         print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
               ('double' if event.dblclick else 'single', event.button,
                event.x, event.y, event.xdata, event.ydata))
-        plt.scatter(event.xdata, event.ydata, s=100, c='red', marker='o', alpha=0.4)
+        x = int(event.xdata + 0.5)
+        y = int(event.ydata + 0.5)
+        plt.scatter(x, y, s=100, c='red', marker='o', alpha=0.4)
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()
-        self.result = self.get_rect_by_center(int(event.xdata), int(event.ydata))
+        self.result = self.get_rect_by_center(x, y)
 
     def get_rect_by_center(self, centerx, centery):
-        print ("ceneter is " + str(centerx) + ", " + str(centery))
+        print ("centerer is " + str(centerx) + ", " + str(centery))
         minx = centerx - self.hside
         maxx = centerx + self.hside
 
@@ -30,7 +32,7 @@ class FirstDeviceCreator:
         if minx<0 or miny<0:
             return None
 
-        return self.image[minx:maxx+1, miny:maxy+1]
+        return self.image[miny:maxy+1, minx:maxx+1 ]
 
     def create_device(self):
         plt.imshow(self.image, cmap='gray_r')

@@ -45,7 +45,7 @@ class SituationsBank:
         for index in range(1, num_of_images + 1):
             plt.subplot(rows, cols, index)
             plt.axis('off')
-            situation = self.situations[index-1]
+            situation = self.situations[index]
             plt.title(str(situation.activation))
             plt.imshow(situation.image, cmap='gray_r')
             plt.scatter(situation.x, situation.y, c='red', marker='o', alpha=0.4)
@@ -88,7 +88,7 @@ class BankCreator:
                     x_max = x_center + hside + 1
                     y_min = y_center - hside
                     y_max = y_center + hside + 1
-                    patch = image[x_min:x_max, y_min:y_max]
+                    patch = image[y_min:y_max, x_min:x_max]
                     activation = np.linalg.norm(patch - kernel)
                     bank.try_add_situation(image, x_center, y_center, activation)
         return bank
@@ -107,8 +107,7 @@ if __name__ == "__main__":
 
     ###################################
     ##### get train mnist  ############
-    imgs = get_all_images_np() [:306]
-
+    imgs = get_all_images_np()
     ###################################
     ### make a bank and save it to file ##
     banksize = 60
