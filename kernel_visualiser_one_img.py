@@ -71,9 +71,9 @@ class KernelApplicator:
 
 
 if __name__ == "__main__":
-    mnist_number = 0
+    mnist_number = 2
     image = get_mnist_number(mnist_number)
-    devcr = FirstDeviceCreator(2, image)
+    devcr = FirstDeviceCreator(3, image)
     matrix = devcr.create_device()
 
     n=4

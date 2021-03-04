@@ -19,5 +19,9 @@ def get_exact_numbers(the_number):
 def get_mnist_number(the_number):
     return get_exact_numbers(the_number)[0].squeeze()
 
+def get_all_images_np():
+    mnist_train = get_train_mnist()
+    np_images = mnist_train.train_data.numpy()
+    return np.squeeze(np_images)
 
 

@@ -15,7 +15,7 @@ class FirstDeviceCreator:
         print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
               ('double' if event.dblclick else 'single', event.button,
                event.x, event.y, event.xdata, event.ydata))
-        plt.scatter(event.xdata, event.ydata, s=500, c='red', marker='o', alpha=0.4)
+        plt.scatter(event.xdata, event.ydata, s=100, c='red', marker='o', alpha=0.4)
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()
         self.result = self.get_rect_by_center(int(event.xdata), int(event.ydata))
@@ -39,9 +39,9 @@ class FirstDeviceCreator:
         return self.result
 
 if __name__ == "__main__":
-    mnist_number = 0
+    mnist_number = 1
     image = get_mnist_number(mnist_number)
-    devcr = FirstDeviceCreator(5, image)
+    devcr = FirstDeviceCreator(4, image)
     matrix = devcr.create_device()
     print (matrix.shape)
     plt.imshow(matrix, cmap='gray_r')
