@@ -56,3 +56,5 @@ if __name__ == "__main__":
     hside = 3
     ubank = FixedUKernelBank(bank, ux, uy, hside)
     print (ubank.get_raw_activations_matrixes().shape)
+    from tsne_visualise import tnse_visialise
+    tnse_visialise(ubank.get_raw_activations_matrixes())
