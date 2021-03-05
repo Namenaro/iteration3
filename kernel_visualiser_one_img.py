@@ -26,7 +26,7 @@ class KernelApplicator:
                 x_max = x_center + self.hside + 1
                 y_min = y_center - self.hside
                 y_max = y_center + self.hside + 1
-                patch = image[x_min:x_max, y_min:y_max]
+                patch = image[ y_min:y_max,x_min:x_max]
                 dist = np.linalg.norm(patch - self.kernel)
                 matrix_result[x_min, y_min] = dist
         return matrix_result

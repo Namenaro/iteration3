@@ -110,10 +110,10 @@ if __name__ == "__main__":
     imgs = get_all_images_np()
     ###################################
     ### make a bank and save it to file ##
-    banksize = 60
-    bank = BankCreator().create_bank(imgs, matrix, banksize)
-    bank.save()
-    del bank
+    #banksize = 60
+    #bank = BankCreator().create_bank(imgs, matrix, banksize)
+   # bank.save()
+    #del bank
 
     ##################################
     # resstore bank from file #######
