@@ -76,4 +76,5 @@ if __name__ == "__main__":
     print (ubank.get_raw_activations_matrixes().shape)
     ubank.show_first_n_situations()
     from tsne_visualise import  *
-    tnse_visialise_with_colors(ubank.get_raw_activations_matrixes(), ubank.get_activations_of_kernel())
+    #tnse_visialise_with_colors(ubank.get_raw_activations_matrixes(), ubank.get_activations_of_kernel())
+    tnse_visialise_with_contrast(ubank.get_raw_activations_matrixes())
