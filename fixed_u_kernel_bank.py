@@ -54,6 +54,18 @@ class FixedUKernelBank:
             activations.append(usituation.kernel_situation.activation)
         return np.array(activations)
 
+    def show_first_n_situations(self):
+        plt.figure()
+        rows = 5
+        cols = 7
+        num_of_images = rows * cols
+        for index in range(1, num_of_images + 1):
+            plt.subplot(rows, cols, index)
+            plt.axis('off')
+            usituation = self.u_situations[index]
+            plt.imshow(usituation.uactivation_matrix, cmap='gray_r')
+        plt.show()
+
 if __name__ == "__main__":
     bank = BankCreator().load_bank()
     bank.show_first_n_situations()
@@ -62,5 +74,6 @@ if __name__ == "__main__":
     hside = 3
     ubank = FixedUKernelBank(bank, ux, uy, hside)
     print (ubank.get_raw_activations_matrixes().shape)
+    ubank.show_first_n_situations()
     from tsne_visualise import  *
     tnse_visialise_with_colors(ubank.get_raw_activations_matrixes(), ubank.get_activations_of_kernel())
