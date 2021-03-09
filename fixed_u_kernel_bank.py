@@ -71,7 +71,7 @@ if __name__ == "__main__":
     bank.show_first_n_situations()
     ux = -6
     uy = -2
-    hside = 3
+    hside = 5
     ubank = FixedUKernelBank(bank, ux, uy, hside)
     print (ubank.get_raw_activations_matrixes().shape)
     ubank.show_first_n_situations()

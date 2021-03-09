@@ -32,12 +32,16 @@ class FloatingUKernelBank:
                 self._add_situation(fl_situation)
 
     def _add_situation(self, fl_situation):
-        if len(self.fl_situations) == 0:
+        len_before = len(self.fl_situations)
+        if len_before == 0:
             self.fl_situations.append(fl_situation)
         else:
             for i in range(len(self.fl_situations)):
                 if self.fl_situations[i].dist > fl_situation.dist:
                     self.fl_situations.insert(i-1, fl_situation)
+                    break
+        if len_before == len(self.fl_situations):
+            self.fl_situations.append(fl_situation)
 
 
     def _get_best_B_activation_matrix(self, kernel_A_situation):
@@ -50,26 +54,26 @@ class FloatingUKernelBank:
             for dy in range(-self.u.dy, self.u.dy):
                 x_center = kernel_A_situation.x + self.u.x + dx
                 y_center = kernel_A_situation.y + self.u.y + dy
-                if not self._check_if_in_bounds(x_center, y_center, imlen):
-                    continue
-                dist = self._get_activationB( x_center, y_center, kernel_A_situation)
-                if best_dist is None:
-                    best_dist = dist
-                    best_dx = dx
-                    best_dy = dy
-                else:
-                    if dist < best_dist:
+                if self._check_if_in_bounds(x_center, y_center, imlen):
+                    dist = self._get_activationB(x_center, y_center, kernel_A_situation)
+                    if best_dist is None:
                         best_dist = dist
                         best_dx = dx
                         best_dy = dy
                     else:
-                        pass
+                        if dist < best_dist:
+                            best_dist = dist
+                            best_dx = dx
+                            best_dy = dy
+                        else:
+                            pass
         if best_dist is not None:
             best_center_x = kernel_A_situation.x + self.u.x + best_dx
             best_center_y = kernel_A_situation.y + self.u.y + best_dy
             best_matrix = self._get_patch_of_image(best_center_x, best_center_y, kernel_A_situation)
             return best_matrix, best_dx, best_dy, best_dist
         else:
+
             return None, None, None, None
 
     def _get_patch_of_image(self, x_center, y_center, kernel_A_situation):
@@ -100,9 +104,11 @@ class FloatingUKernelBank:
 
     def show_first_n_situations(self):
         plt.figure()
-        rows = 7
-        cols = 7
+        rows = 20
+        cols = 10
         num_of_images = rows * cols
+        if num_of_images > len(self.fl_situations):
+            num_of_images = len(self.fl_situations) -1
         for index in range(1, num_of_images + 1):
             plt.subplot(rows, cols, index)
             plt.axis('off')
@@ -110,12 +116,26 @@ class FloatingUKernelBank:
             plt.imshow(usituation.B_uactivation_matrix, cmap='gray_r')
         plt.show()
 
+    def show_first_n_situationsA(self):
+        plt.figure()
+        rows = 20
+        cols = 10
+        num_of_images = rows * cols
+        if num_of_images > len(self.fl_situations):
+            num_of_images = len(self.fl_situations) -1
+        for index in range(1, num_of_images + 1):
+            plt.subplot(rows, cols, index)
+            plt.axis('off')
+            usituation = self.fl_situations[index]
+            plt.imshow(usituation.kernel_situation.image, cmap='gray_r')
+        plt.show()
+
 
 
 if __name__ == "__main__":
     bank = BankCreator().load_bank()
     bank.show_first_n_situations()
-    ux = -6
+    ux = -5
     uy = -2
     hside = 5
     ubank = FixedUKernelBank(bank, ux, uy, hside)
@@ -129,6 +149,7 @@ if __name__ == "__main__":
     fl_bank = FloatingUKernelBank(floating_u, bank, kernel_B)
     print(fl_bank.get_raw_activations_matrixes().shape)
     fl_bank.show_first_n_situations()
+    fl_bank.show_first_n_situationsA()
     from tsne_visualise import *
 
     tnse_visialise(fl_bank.get_raw_activations_matrixes())
