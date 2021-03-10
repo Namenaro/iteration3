@@ -52,6 +52,7 @@ class SituationsBank:
         plt.show()
 
     def show_all_situations(self):
+
         pass
 
     def save(self, filename='data.pickle'):

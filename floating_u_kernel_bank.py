@@ -135,7 +135,7 @@ class FloatingUKernelBank:
 if __name__ == "__main__":
     bank = BankCreator().load_bank()
     bank.show_first_n_situations()
-    ux = -5
+    ux = -6
     uy = -2
     hside = 5
     ubank = FixedUKernelBank(bank, ux, uy, hside)
@@ -143,8 +143,8 @@ if __name__ == "__main__":
     plt.imshow(kernel_B, cmap='gray_r')
     plt.show()
 
-    dx = 5
-    dy = 5
+    dx = 3
+    dy = 3
     floating_u = FloatingU(ux,uy,hside, dx, dy)
     fl_bank = FloatingUKernelBank(floating_u, bank, kernel_B)
     print(fl_bank.get_raw_activations_matrixes().shape)
@@ -154,6 +154,7 @@ if __name__ == "__main__":
 
     tnse_visialise(fl_bank.get_raw_activations_matrixes())
     tnse_visialise_with_contrast(fl_bank.get_raw_activations_matrixes())
+
 
 
 
