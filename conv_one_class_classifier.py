@@ -1,4 +1,7 @@
+import torch
 import torch.nn as nn
+from torch.autograd import Variable
+import torch.optim as optim
 
 class ConvOneClassClassifier(nn.Module):
     def __init__(self, num_kernels, kernel_side):
@@ -7,7 +10,8 @@ class ConvOneClassClassifier(nn.Module):
                                out_channels=num_kernels,
                                kernel_size=kernel_side,
                                stride=1,
-                               padding=0)
+                               padding=0,
+                               bias=True)
         self.pool = nn.AdaptiveMaxPool2d((1, 1))
         self.out_act = nn.Sigmoid()
 
@@ -19,11 +23,32 @@ class ConvOneClassClassifier(nn.Module):
         return out
 
 
-def train_net(true_examples, contrast_examples, num_kernels, kernel_side):
-    net = ConvOneClassClassifier(num_kernels, kernel_side)
+def train_net(true_examples, num_kernels, kernel_side, epochs):
+    FloatTensor = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+
+    net = ConvOneClassClassifier(num_kernels, kernel_side).to(device)
+    optimizer = optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999))
+    criterion = nn.BCELoss()
+
+    losses = []
+    for i in range(epochs):
+        y_pred = net.forward(X)
+        loss = criterion(y_pred, y)
+
+        losses.append(loss.item())
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
     return net
 
 
 
+
 if __name__ == "__main__":
-    pass
+    true_examples =
+    contrast_examples =
+    net = train_net(true_examples, contrast_examples, num_kernels=1, kernel_side=5, epochs=10000)
