@@ -55,8 +55,8 @@ class SituationsBank:
 
         pass
 
-    def save(self, filename='data.pickle'):
-        with open(filename, 'wb') as f:
+    def save(self):
+        with open(self.name, 'wb') as f:
             pickle.dump(self, f)
 
     def show_hist(self):
@@ -97,7 +97,7 @@ class BankCreator:
 if __name__ == "__main__":
     ###################################
     ##### get some matrix  ############
-    from utils import get_mnist_number, get_all_images_np
+    from utils import get_mnist_number, get_all_images_np, get_exact_numbers
     from first_device import FirstDeviceCreator
     mnist_number = 2
     image = get_mnist_number(mnist_number)
@@ -108,17 +108,18 @@ if __name__ == "__main__":
 
     ###################################
     ##### get train mnist  ############
-    imgs = get_all_images_np()
+    #imgs = get_all_images_np()
+    #imgs = get_exact_numbers(2)
     ###################################
     ### make a bank and save it to file ##
-    #banksize = 60
-    #bank = BankCreator().create_bank(imgs, matrix, banksize)
-   # bank.save()
+    #banksize = 70
+    #bank = BankCreator().create_bank(imgs, matrix, banksize, bankname="2_necks.bank")
+    #bank.save()
     #del bank
 
     ##################################
     # resstore bank from file #######
-    bank = BankCreator().load_bank()
+    bank = BankCreator().load_bank("2_necks.bank")
     bank.show_hist()
     plt.show()
 

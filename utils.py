@@ -14,10 +14,10 @@ def get_exact_numbers(the_number):
     for i in range(len(np_labels)):
         if np_labels[i] == the_number:
             results.append(np_images[i])
-    return np.array(results)
+    return np.array(results).squeeze()
 
 def get_mnist_number(the_number):
-    return get_exact_numbers(the_number)[0].squeeze()
+    return get_exact_numbers(the_number)[13].squeeze()
 
 def get_all_images_np():
     mnist_train = get_train_mnist()

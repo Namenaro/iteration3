@@ -17,9 +17,10 @@ class ConvOneClassClassifier(nn.Module):
     def forward(self, x):
         x = self.conv1(x)
         x = self.pool(x)
-        x = nn.Flatten(x)
-        out = self.out_act(x)
-        return out
+
+        x = self.out_act(x)
+
+        return x
 
 
 
