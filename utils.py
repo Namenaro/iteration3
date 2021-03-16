@@ -24,10 +24,20 @@ def get_all_images_np():
     np_images = mnist_train.train_data.numpy()
     return np.squeeze(np_images)
 
+def get_mnist_exclude_number(the_number):
+    results = []
+    mnist_train = get_train_mnist()
+    np_images = mnist_train.train_data.numpy()
+    np_labels = mnist_train.train_labels.numpy()
+    for i in range(len(np_labels)):
+        if np_labels[i] != the_number:
+            results.append(np_images[i])
+    return np.array(results).squeeze()
+
 def get_contrast(data_shape):
     results = []
     num_of_samples = data_shape[0]*5
-    side= data_shape[1]
+    side = data_shape[1]
     hside = int(side/2)
     mnist_train = get_train_mnist()
     np_images = mnist_train.train_data.numpy()
