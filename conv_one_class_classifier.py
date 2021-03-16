@@ -10,13 +10,17 @@ class ConvOneClassClassifier(nn.Module):
                                kernel_size=kernel_side,
                                stride=1,
                                padding=0,
-                               bias=True)
-        self.pool = nn.AdaptiveMaxPool2d((1, 1))
+                               bias=False)
+        self.pool2d = nn.AdaptiveMaxPool2d((1, 1))
+        self.pool1d = nn.AdaptiveMaxPool1d(1)
+        self.lin = nn.Linear(num_kernels, 1)
         self.out_act = nn.Sigmoid()
 
     def forward(self, x):
         x = self.conv1(x)
-        x = self.pool(x)
+        x = self.pool2d(x)
+        x = x.view(x.shape[0], 1, -1)
+        x = self.lin(x)
 
         x = self.out_act(x)
 

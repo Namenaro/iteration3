@@ -18,8 +18,8 @@ def prepare_batch_xy_np(true_examples, contrast_getter):
     TRUE_LABEL = 1.0
     FALSE_LABEL = 0.0
 
-    true_labels = np.full((len(true_examples),1,1,1 ), TRUE_LABEL)
-    false_labels = np.full((len(contrast),1,1,1), FALSE_LABEL)
+    true_labels = np.full((len(true_examples),1,1), TRUE_LABEL)
+    false_labels = np.full((len(contrast),1,1), FALSE_LABEL)
 
     np_y = np.concatenate((true_labels, false_labels))
     return np_x, np_y
@@ -57,4 +57,12 @@ def get_trained_classifier(true_examples, num_kernels, kernel_side, epochs):
 if __name__ == "__main__":
     from get_two_starts_dataset import get_2_starts_np_dataset_from_bank
     true_examples = get_2_starts_np_dataset_from_bank()
-    net = get_trained_classifier(true_examples, num_kernels=1, kernel_side=5, epochs=1110)
+    num_kernels = 5
+    net = get_trained_classifier(true_examples[0:30], num_kernels=num_kernels, kernel_side=5, epochs=3110)
+    for m in net.modules():
+        if isinstance(m, nn.Conv2d):
+            for i in range(num_kernels):
+                plt.imshow(m.weight.data[i].squeeze(), cmap='gray_r')
+                plt.colorbar()
+                plt.show()
+

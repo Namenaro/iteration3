@@ -3,7 +3,7 @@ from fixed_u_kernel_bank import FixedUKernelBank
 
 def get_2_starts_np_dataset_from_bank():
     bank = BankCreator().load_bank("2_necks.bank")
-    ux = 4
+    ux = 2
     uy = 0
     hside = 5
     ubank = FixedUKernelBank(bank, ux, uy, hside)
